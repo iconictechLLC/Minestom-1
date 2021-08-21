@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  */
 public class BinaryReader extends InputStream {
     private final ByteBuffer buffer;
-    private final NBTReader nbtReader = new NBTReader(this, false);
+    private final NBTReader nbtReader = new NBTReader(this);
 
     public BinaryReader(@NotNull ByteBuffer buffer) {
         this.buffer = buffer;

@@ -1,6 +1,7 @@
 package net.minestom.server.world.biomes;
 
 import net.minestom.server.utils.NamespaceID;
+import org.jglrxavpok.hephaistos.nbt.NBT;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 
 public class BiomeEffects {
@@ -39,28 +40,28 @@ public class BiomeEffects {
     }
 
     public NBTCompound toNbt() {
-        NBTCompound nbt = new NBTCompound();
-        nbt.setInt("fog_color", fog_color);
-        if (foliage_color != -1)
-            nbt.setInt("foliage_color", foliage_color);
-        if (grass_color != -1)
-            nbt.setInt("grass_color", grass_color);
-        nbt.setInt("sky_color", sky_color);
-        nbt.setInt("water_color", water_color);
-        nbt.setInt("water_fog_color", water_fog_color);
-        if (grass_color_modifier != null)
-            nbt.setString("grass_color_modifier", grass_color_modifier.getType());
-        if (biomeParticles != null)
-            nbt.set("particle", biomeParticles.toNbt());
-        if (ambient_sound != null)
-            nbt.setString("ambient_sound", ambient_sound.toString());
-        if (mood_sound != null)
-            nbt.set("mood_sound", mood_sound.toNbt());
-        if (additions_sound != null)
-            nbt.set("additions_sound", additions_sound.toNbt());
-        if (music != null)
-            nbt.set("music", music.toNbt());
-        return nbt;
+        return NBT.Compound(nbt -> {
+            nbt.setInt("fog_color", fog_color);
+            if (foliage_color != -1)
+                nbt.setInt("foliage_color", foliage_color);
+            if (grass_color != -1)
+                nbt.setInt("grass_color", grass_color);
+            nbt.setInt("sky_color", sky_color);
+            nbt.setInt("water_color", water_color);
+            nbt.setInt("water_fog_color", water_fog_color);
+            if (grass_color_modifier != null)
+                nbt.setString("grass_color_modifier", grass_color_modifier.getType());
+            if (biomeParticles != null)
+                nbt.set("particle", biomeParticles.toNbt());
+            if (ambient_sound != null)
+                nbt.setString("ambient_sound", ambient_sound.toString());
+            if (mood_sound != null)
+                nbt.set("mood_sound", mood_sound.toNbt());
+            if (additions_sound != null)
+                nbt.set("additions_sound", additions_sound.toNbt());
+            if (music != null)
+                nbt.set("music", music.toNbt());
+        });
     }
 
     public int getFog_color() {
@@ -149,12 +150,12 @@ public class BiomeEffects {
         }
 
         public NBTCompound toNbt() {
-            NBTCompound nbt = new NBTCompound();
-            nbt.setString("sound", sound.toString());
-            nbt.setInt("tick_delay", tickDelay);
-            nbt.setInt("block_search_extent", blockSearchExtent);
-            nbt.setDouble("offset", offset);
-            return nbt;
+            return NBT.Compound(nbt -> {
+                nbt.setString("sound", sound.toString());
+                nbt.setInt("tick_delay", tickDelay);
+                nbt.setInt("block_search_extent", blockSearchExtent);
+                nbt.setDouble("offset", offset);
+            });
         }
 
     }
@@ -170,10 +171,10 @@ public class BiomeEffects {
         }
 
         public NBTCompound toNbt() {
-            NBTCompound nbt = new NBTCompound();
-            nbt.setString("sound", sound.toString());
-            nbt.setDouble("tick_chance", tickChance);
-            return nbt;
+            return NBT.Compound(nbt -> {
+                nbt.setString("sound", sound.toString());
+                nbt.setDouble("tick_chance", tickChance);
+            });
         }
 
     }
@@ -193,12 +194,12 @@ public class BiomeEffects {
         }
 
         public NBTCompound toNbt() {
-            NBTCompound nbt = new NBTCompound();
-            nbt.setString("sound", sound.toString());
-            nbt.setInt("min_delay", minDelay);
-            nbt.setInt("max_delay", maxDelay);
-            nbt.setByte("replace_current_music", replaceCurrentMusic ? (byte) 1 : (byte) 0);
-            return nbt;
+            return NBT.Compound(nbt -> {
+                nbt.setString("sound", sound.toString());
+                nbt.setInt("min_delay", minDelay);
+                nbt.setInt("max_delay", maxDelay);
+                nbt.setByte("replace_current_music", replaceCurrentMusic ? (byte) 1 : (byte) 0);
+            });
         }
 
     }

@@ -321,7 +321,7 @@ public class Metadata {
             case TYPE_OPTBLOCKID:
                 return (Value<T>) OptBlockID(null);
             case TYPE_NBT:
-                return (Value<T>) NBT(new NBTEnd());
+                return (Value<T>) NBT(NBTEnd.INSTANCE);
             case TYPE_PARTICLE:
                 throw new UnsupportedOperationException();
             case TYPE_VILLAGERDATA:

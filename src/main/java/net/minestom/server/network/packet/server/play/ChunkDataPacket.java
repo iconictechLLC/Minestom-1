@@ -17,6 +17,7 @@ import net.minestom.server.utils.binary.BinaryWriter;
 import net.minestom.server.utils.chunk.ChunkUtils;
 import net.minestom.server.world.biomes.Biome;
 import org.jetbrains.annotations.NotNull;
+import org.jglrxavpok.hephaistos.nbt.NBT;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 import org.jglrxavpok.hephaistos.nbt.NBTException;
 
@@ -87,9 +88,10 @@ public class ChunkDataPacket implements ServerPacket {
 
         {
             writer.writeNBT("",
-                    new NBTCompound()
-                            .setLongArray("MOTION_BLOCKING", Utils.encodeBlocks(motionBlocking, 9))
-                            .setLongArray("WORLD_SURFACE", Utils.encodeBlocks(worldSurface, 9))
+                    NBT.Compound(nbt -> {
+                            nbt.setLongArray("MOTION_BLOCKING", Utils.encodeBlocks(motionBlocking, 9));
+                            nbt.setLongArray("WORLD_SURFACE", Utils.encodeBlocks(worldSurface, 9));
+                    })
             );
         }
 

@@ -4,6 +4,7 @@ import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.utils.NamespaceID;
 import org.jetbrains.annotations.NotNull;
+import org.jglrxavpok.hephaistos.nbt.NBT;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 
 import java.util.Map;
@@ -19,10 +20,10 @@ public class BiomeParticles {
     }
 
     public NBTCompound toNbt() {
-        NBTCompound nbt = new NBTCompound();
-        nbt.setFloat("probability", probability);
-        nbt.set("options", options.toNbt());
-        return nbt;
+        return NBT.Compound(nbt -> {
+            nbt.setFloat("probability", probability);
+            nbt.set("options", options.toNbt());
+        });
     }
 
     public interface ParticleOptions {
@@ -42,16 +43,16 @@ public class BiomeParticles {
 
         @Override
         public NBTCompound toNbt() {
-            NBTCompound nbtCompound = new NBTCompound();
-            nbtCompound.setString("type", type);
-            nbtCompound.setString("Name", block.name());
-            Map<String, String> propertiesMap = block.properties();
-            if (propertiesMap.size() != 0) {
-                NBTCompound properties = new NBTCompound();
-                propertiesMap.forEach(properties::setString);
-                nbtCompound.set("Properties", properties);
-            }
-            return nbtCompound;
+            return NBT.Compound(nbtCompound -> {
+                nbtCompound.setString("type", type);
+                nbtCompound.setString("Name", block.name());
+                Map<String, String> propertiesMap = block.properties();
+                if (propertiesMap.size() != 0) {
+                    nbtCompound.set("Properties", NBT.Compound(p -> {
+                        propertiesMap.forEach(p::setString);
+                    }));
+                }
+            });
         }
 
     }
@@ -74,13 +75,13 @@ public class BiomeParticles {
 
         @Override
         public NBTCompound toNbt() {
-            NBTCompound nbtCompound = new NBTCompound();
-            nbtCompound.setString("type", type);
-            nbtCompound.setFloat("r", red);
-            nbtCompound.setFloat("g", green);
-            nbtCompound.setFloat("b", blue);
-            nbtCompound.setFloat("scale", scale);
-            return nbtCompound;
+            return NBT.Compound(nbtCompound -> {
+                nbtCompound.setString("type", type);
+                nbtCompound.setFloat("r", red);
+                nbtCompound.setFloat("g", green);
+                nbtCompound.setFloat("b", blue);
+                nbtCompound.setFloat("scale", scale);
+            });
         }
 
     }
@@ -99,8 +100,9 @@ public class BiomeParticles {
         public NBTCompound toNbt() {
             //todo test count might be wrong type
             NBTCompound nbtCompound = item.getMeta().toNBT();
-            nbtCompound.setString("type", type);
-            return nbtCompound;
+            return nbtCompound.modify(n -> {
+                n.setString("type", type);
+            });
         }
 
     }
@@ -115,9 +117,9 @@ public class BiomeParticles {
 
         @Override
         public NBTCompound toNbt() {
-            NBTCompound nbtCompound = new NBTCompound();
-            nbtCompound.setString("type", type.toString());
-            return nbtCompound;
+            return NBT.Compound(nbt -> {
+                nbt.setString("type", type.toString());
+            });
         }
 
     }

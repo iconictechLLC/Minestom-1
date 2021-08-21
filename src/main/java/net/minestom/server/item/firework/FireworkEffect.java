@@ -2,6 +2,8 @@ package net.minestom.server.item.firework;
 
 import net.minestom.server.color.Color;
 import org.jetbrains.annotations.NotNull;
+import org.jglrxavpok.hephaistos.collections.ImmutableIntArray;
+import org.jglrxavpok.hephaistos.nbt.NBT;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 
 import java.util.ArrayList;
@@ -47,16 +49,16 @@ public class FireworkEffect {
         List<Color> secondaryColor = new ArrayList<>();
 
         if (compound.containsKey("Colors")) {
-            int[] color = compound.getIntArray("Colors");
-            for (int i = 0; i < color.length; i++) {
-                primaryColor.add(new Color(color[i]));
+            ImmutableIntArray color = compound.getIntArray("Colors");
+            for (int i = 0; i < color.getSize(); i++) {
+                primaryColor.add(new Color(color.get(i)));
             }
         }
 
         if (compound.containsKey("FadeColors")) {
-            int[] fadeColor = compound.getIntArray("FadeColors");
-            for (int i = 0; i < fadeColor.length; i++) {
-                secondaryColor.add(new Color(fadeColor[i]));
+            ImmutableIntArray fadeColor = compound.getIntArray("FadeColors");
+            for (int i = 0; i < fadeColor.getSize(); i++) {
+                secondaryColor.add(new Color(fadeColor.get(i)));
             }
         }
 
@@ -137,15 +139,14 @@ public class FireworkEffect {
      * @return The firework effect as a nbt compound.
      */
     public NBTCompound asCompound() {
-        NBTCompound explosionCompound = new NBTCompound();
-        explosionCompound.setByte("Flicker", this.getFlicker());
-        explosionCompound.setByte("Trail", this.getTrail());
-        explosionCompound.setByte("Type", this.getType());
+        return NBT.Compound(explosionCompound -> {
+            explosionCompound.setByte("Flicker", this.getFlicker());
+            explosionCompound.setByte("Trail", this.getTrail());
+            explosionCompound.setByte("Type", this.getType());
 
-        explosionCompound.setIntArray("Colors", this.getColors());
-        explosionCompound.setIntArray("FadeColors", this.getFadeColors());
-
-        return explosionCompound;
+            explosionCompound.setIntArray("Colors", this.getColors());
+            explosionCompound.setIntArray("FadeColors", this.getFadeColors());
+        });
     }
 
     /**

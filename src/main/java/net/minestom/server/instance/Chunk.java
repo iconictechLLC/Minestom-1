@@ -20,6 +20,7 @@ import net.minestom.server.world.biomes.Biome;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
+import org.jglrxavpok.hephaistos.nbt.mutable.MutableNBTCompound;
 
 import java.util.Collections;
 import java.util.Map;
@@ -64,7 +65,7 @@ public abstract class Chunk implements BlockGetter, BlockSetter, Viewable, Ticka
     protected PFColumnarSpace columnarSpace;
 
     // Data
-    private final NBTCompound nbt = new NBTCompound();
+    private final MutableNBTCompound nbt = new MutableNBTCompound();
 
     public Chunk(@NotNull Instance instance, @Nullable Biome[] biomes, int chunkX, int chunkZ, boolean shouldGenerate) {
         this.identifier = UUID.randomUUID();

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jglrxavpok.hephaistos.nbt.NBT;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 import org.jglrxavpok.hephaistos.nbt.NBTException;
+import org.jglrxavpok.hephaistos.nbt.mutable.MutableNBTCompound;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -113,13 +114,13 @@ public class ChunkDataPacket implements ServerPacket {
         if (entries == null || entries.isEmpty()) {
             writer.writeVarInt(0);
         } else {
-            List<NBTCompound> compounds = new ArrayList<>();
+            List<MutableNBTCompound> compounds = new ArrayList<>();
             for (var entry : entries.entrySet()) {
                 final int index = entry.getKey();
                 final Block block = entry.getValue();
                 final String blockEntity = block.registry().blockEntity();
                 if (blockEntity == null) continue; // Only send block entities to client
-                final NBTCompound resultNbt = new NBTCompound();
+                final MutableNBTCompound resultNbt = new MutableNBTCompound();
                 // Append handler tags
                 final BlockHandler handler = block.handler();
                 if (handler != null) {
@@ -134,14 +135,14 @@ public class ChunkDataPacket implements ServerPacket {
                 }
                 // Add block entity
                 final var blockPosition = ChunkUtils.getBlockPosition(index, chunkX, chunkZ);
-                resultNbt.setString("id", blockEntity)
-                        .setInt("x", blockPosition.blockX())
-                        .setInt("y", blockPosition.blockY())
-                        .setInt("z", blockPosition.blockZ());
+                resultNbt.setString("id", blockEntity);
+                resultNbt.setInt("x", blockPosition.blockX());
+                resultNbt.setInt("y", blockPosition.blockY());
+                resultNbt.setInt("z", blockPosition.blockZ());
                 compounds.add(resultNbt);
             }
             writer.writeVarInt(compounds.size());
-            compounds.forEach(nbtCompound -> writer.writeNBT("", nbtCompound));
+            compounds.forEach(nbtCompound -> writer.writeNBT("", nbtCompound.toCompound()));
         }
     }
 

@@ -115,7 +115,7 @@ public final class SchedulerManager implements IExtensionObserver {
         this.timerExecutionService.shutdown();
         this.batchesPool.shutdown();
         try {
-            batchesPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            batchesPool.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             MinecraftServer.getExceptionManager().handleException(e);
         }

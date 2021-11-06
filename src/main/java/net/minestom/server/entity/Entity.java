@@ -1016,7 +1016,7 @@ public class Entity implements Viewable, Tickable, TagHandler, PermissionHandler
         if (!passengers.remove(entity)) return;
         entity.vehicle = null;
         sendPacketToViewersAndSelf(getPassengersPacket());
-        entity.synchronizePosition(false);
+        entity.synchronizePosition(true);
     }
 
     /**
@@ -1318,7 +1318,7 @@ public class Entity implements Viewable, Tickable, TagHandler, PermissionHandler
      * @param newPosition The X,Y,Z position of this vehicle
      * @param passenger   The passenger to be moved
      */
-    private void updatePassengerPosition(Point newPosition, Entity passenger) {
+    public void updatePassengerPosition(Point newPosition, Entity passenger) {
         final Pos oldPassengerPos = passenger.position;
         final Pos newPassengerPos = oldPassengerPos.withCoord(newPosition.x(),
                 newPosition.y() + getPassengerHeightOffset(),
@@ -1374,6 +1374,10 @@ public class Entity implements Viewable, Tickable, TagHandler, PermissionHandler
      */
     public @NotNull Pos getPosition() {
         return position;
+    }
+
+    public @Nullable Pos getPreviousPosition() {
+        return previousPosition;
     }
 
     /**

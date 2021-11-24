@@ -27,7 +27,7 @@ import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.instance.block.BlockGetter;
 import net.minestom.server.instance.block.BlockHandler;
-import net.minestom.server.network.packet.CachedPacket;
+import net.minestom.server.network.packet.server.CachedPacket;
 import net.minestom.server.network.packet.server.ServerPacket;
 import net.minestom.server.network.packet.server.play.*;
 import net.minestom.server.permission.Permission;
@@ -189,8 +189,8 @@ public class Entity implements Viewable, Tickable, TagHandler, PermissionHandler
         Entity.ENTITY_BY_ID.put(id, this);
         Entity.ENTITY_BY_UUID.put(uuid, this);
 
-        this.gravityAcceleration = EntityTypeImpl.getAcceleration(entityType.name());
-        this.gravityDragPerTick = EntityTypeImpl.getDrag(entityType.name());
+        this.gravityAcceleration = entityType.registry().acceleration();
+        this.gravityDragPerTick = entityType.registry().drag();
     }
 
     public Entity(@NotNull EntityType entityType) {
@@ -455,7 +455,7 @@ public class Entity implements Viewable, Tickable, TagHandler, PermissionHandler
                 if (passenger != player) passenger.viewEngine.viewableOption.removal.accept(player);
             }
         }
-        player.sendPacket(destroyPacketCache.retrieve());
+        player.sendPacket(destroyPacketCache);
     }
 
     @Override

@@ -131,6 +131,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.zaxxer/SparseBitSet
     implementation group: 'com.zaxxer', name: 'SparseBitSet', version: '1.2'
 
+    // https://mvnrepository.com/artifact/org.jctools/jctools-core
+    implementation group: 'org.jctools', name: 'jctools-core', version: '3.3.0'
+
     // Guava 21.0+ required for Mixin
     api 'com.google.guava:guava:31.0.1-jre'
 
@@ -158,7 +161,7 @@ dependencies {
     }
 
     api "com.github.Minestom:DependencyGetter:v1.0.1"
-    implementation 'com.github.Minestom:MinestomDataGenerator:7636d5d473'
+    implementation 'com.github.Minestom:MinestomDataGenerator:47da93dd5a99280314d7e6137d2c81e7793f0fdb'
 
     // Adventure, for user-interface
     api "net.kyori:adventure-api:$adventureVersion"
